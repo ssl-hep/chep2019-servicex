@@ -18,30 +18,60 @@
 %
 \begin{document}
 %
-\title{Insert your title here}
+\title{ServiceX}
 %
 % subtitle is optionnal
 %
-%%%\subtitle{Do you have a subtitle?\\ If so, write it here}
+\subtitle{A Distributed, Caching, Columnar Data Delivery Service}
 
-\author{\firstname{First author} \lastname{First author}\inst{1,3}\fnsep\thanks{\email{Mail address for first
-    author}} \and
-        \firstname{Second author} \lastname{Second author}\inst{2}\fnsep\thanks{\email{Mail address for second
-             author if necessary}} \and
-        \firstname{Third author} \lastname{Third author}\inst{3}\fnsep\thanks{\email{Mail address for last
-             author if necessary}}
-        % etc.
+\author{\firstname{B.} \lastname{Galewsky}\inst{1}\fnsep\thanks{\email{bengal1@illinois.edu}} \and
+        \firstname{R.} \lastname{Gardner}\inst{2}\fnsep\thanks{\email{rwg@uchicago.edu}} \and
+        \firstname{L.} \lastname{Gray}\inst{5}\fnsep\thanks{\email{Lindsey.Gray@cern.ch}} \and
+        \firstname{M.} \lastname{Neubauer}\inst{1}\fnsep\thanks{\email{msn@illinois.edu}} \and
+        \firstname{J.} \lastname{Pivarski}\inst{3}\fnsep\thanks{\email{pivarski@princeton.edu}} \and
+        \firstname{M.} \lastname{Proffitt}\inst{4}\fnsep\thanks{\email{masonlp@uw.edu}} \and
+        \firstname{I.} \lastname{Vukotic}\inst{2}\fnsep\thanks{\email{ivukotic@uchicago.edu}} \and
+        \firstname{G.} \lastname{Watts}\inst{4}\fnsep\thanks{\email{gwatts@uw.edu}} \and
+        \firstname{M.} \lastname{Weinberg}\inst{2}\fnsep\thanks{\email{mweinberg@uchicago.edu}}
 }
 
-\institute{Insert the first address here 
+A: University of Illinois at Urbana-Champaign, B: The University of Chicago,
+C: Princeton University, D: University of Washington, E: Fermilab
+
+\institute{University of Illinois at Urbana-Champaign
 \and
-           the second here 
+           The University of Chicago
 \and
-           Last address
+           Princeton University
+\and
+           University of Washington
+\and
+           Fermilab
           }
 
 \abstract{%
-  Insert your english abstract here.
+  We will describe a component of the Intelligent Data Delivery Service being developed in
+  collaboration with IRIS-HEP and the LHC experiments. ServiceX is an experiment-agnostic service
+  to enable on-demand data delivery specifically tailored for nearly-interactive vectorized
+  analysis. This work is motivated by the data engineering challenges posed by HL-LHC data volumes
+  and the increasing popularity of python and Spark-based analysis workflows.
+  \medskip
+  
+  ServiceX gives analyzers the ability to query events by dataset metadata. It uses containerized
+  transformations to extract just the data required for the analysis. This operation is collocated
+  with the data lake to avoid transferring unnecessary branches over the WAN. Simple filtering
+  operations are supported to further reduce the amount of data transferred.
+  \medskip
+  
+  Transformed events are cached in a columnar datastore to accelerate delivery of subsequent
+  similar requests. ServiceX will learn commonly related columns and automatically include them in
+  the transformation to increase the potential for cache hits by other users.
+  \medskip
+  
+  Selected events are streamed to the analysis system using an efficient wire protocol that can be
+  readily consumed by a variety of computational frameworks. This reduces time-to-insight for
+  physics analysis by delegating to ServiceX the complexity of event selection, slimming,
+  reformatting, and streaming.
 }
 %
 \maketitle
