@@ -1,3 +1,12 @@
+Note that a *.pdf file can be built from this *.tex file via
+
+    $ sudo apt install texlive
+    $ git https://github.com/ssl-hep/chep2019-servicex.git
+    $ cd chep2019-servicex
+    $ pdflatex servicex.tex
+
+From the conference information:
+
 %                                           
 % LaTeX class for Web of Conferences Journal
 % read-me file
