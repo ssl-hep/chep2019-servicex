@@ -111,7 +111,6 @@ that only useful data is transmitted to the user.
 
 \subsection{ServiceX features}
 \label{subsec:features}
-% Don't forget to give each section, subsection, subsubsection, and paragraph a unique label (see Sect.~\ref{sec:overview}).
 
 ServiceX orchestrates containerized experiment-approved frameworks in order to produce data in
 columnar formats. It includes a REST server interface that can be colocated with the data lake and
@@ -149,23 +148,23 @@ An example transform request is presented below for illustration:
 {\raggedright \footnotesize
   \texttt{\{}
   
-  \texttt{"did": "mc15\_13TeV:mc15\_13TeV.361106.PowhegPythia8EvtGen\_AZNLOCTEQ6L1\_Zee.merge",}
+  \texttt{\quad "did": "mc15\_13TeV:mc15\_13TeV.361106.PowhegPythia8EvtGen\_AZNLOCTEQ6L1\_Zee.merge",}
   
-  \texttt{"columns": "Electrons.pt(), Electrons.eta(), Muons.eta(), Muons.phi(), Muons.e()",}
+  \texttt{\quad "columns": "Electrons.pt(), Electrons.eta(), Muons.eta(), Muons.phi(), Muons.e()",}
   
-  \texttt{"image": "sslhep/servicex-transformer:v0.1",}
+  \texttt{\quad "image": "sslhep/servicex-transformer:v0.1",}
   
-  \texttt{"result-destination": "kafka",}
+  \texttt{\quad "result-destination": "kafka",}
   
-  \texttt{"kafka":\{}
+  \texttt{\quad "kafka":\{}
   
-  \texttt{    "broker": "servicex-kafka-1.slateci.net:19092"}
+  \texttt{\quad \quad "broker": "servicex-kafka-1.slateci.net:19092"}
   
-  \texttt{\},}
+  \texttt{\quad \},}
   
-  \texttt{"chunk-size": 9000,}
+  \texttt{\quad "chunk-size": 9000,}
   
-  \texttt{"workers": 17}
+  \texttt{\quad "workers": 17}
   
   \texttt{\}}
 }
@@ -230,12 +229,24 @@ ntuples and for the CMS nanoAOD format, which features this flat tree structure.
 transformation can be performed directly with uproot tools, so the process is much faster. This
 transformer also does not currently have in-place filtering implemented.
 
-% \begin{figure}[ht]
-%   \centering
-%   \includegraphics[width=0.75\textwidth]{sequenceDiagram}
-%   \caption{Sequence diagram showing information flow in ServiceX.}
-%   \label{fig:sequenceDiagram}
-% \end{figure}
+\subsection{Scalability testing}
+\label{subsec:scaling}
+
+The performance of ServiceX also needs to be measured in terms of its ability to scale up or down
+in response to multiple input parameters. It is necessary for the service to be able to handle
+multiple concurrent users requesting many distinct columns of data from different large input
+datasets simultaneously. In order to ensure this functionality the service has several
+requirements: to make the system robust against individual pod failures, the transform manager must
+have transactional integrity, guaranteeing that each file in the request is transformed exactly
+once. Further, the system must be capable of horizontally scaling the number of transformation pods
+automatically in response to both the request size and the system load. Moreover, the system needs
+a scheduling mechanism to handle simultaneous requests and facilitate the efficient sharing of
+resources among different users of the service.
+
+Smooth and robust operation of the service at scale depends on system performance under several
+metrics, including CPU usage, network usage, and memory consumed by running transformers. A key
+piece of the development effort of ServiceX centers on accurately evaluating and optimizing these
+metrics under different types of input loads.
 
 \section{What's next?}
 \label{sec:whatNext}
